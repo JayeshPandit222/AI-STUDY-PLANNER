@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudySync | AI-Powered Study Planner</title>
+    <meta name="description" content="AI-powered study planner that generates personalized daily timetables to help you ace your exams.">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+    <!-- ======================== -->
+    <!-- WELCOME / LANDING PAGE   -->
+    <!-- ======================== -->
+    <section id="welcome-page" class="welcome-page">
+        <div class="welcome-bg">
+            <div class="glow-orb orb-1"></div>
+            <div class="glow-orb orb-2"></div>
+            <div class="glow-orb orb-3"></div>
+            <canvas id="particles-canvas"></canvas>
+        </div>
+
+        <div class="welcome-content">
+            <div class="welcome-icon-wrapper">
+                <div class="welcome-icon-ring ring-1"></div>
+                <div class="welcome-icon-ring ring-2"></div>
+                <div class="welcome-icon-ring ring-3"></div>
+                <div class="welcome-icon">
+                    <i class="ri-brain-line"></i>
+                </div>
+            </div>
+
+            <p class="welcome-label">Welcome to</p>
+            <h1 class="welcome-title">
+                <span class="welcome-title-ai">AI</span> Study Planner
+            </h1>
+            <p class="welcome-subtitle">
+                Your intelligent companion for exam prep — create personalized study schedules powered by smart algorithms.
+            </p>
+
+            <div class="welcome-features">
+                <div class="feature-pill">
+                    <i class="ri-calendar-schedule-line"></i>
+                    <span>Smart Scheduling</span>
+                </div>
+                <div class="feature-pill">
+                    <i class="ri-bar-chart-grouped-line"></i>
+                    <span>Time Analytics</span>
+                </div>
+                <div class="feature-pill">
+                    <i class="ri-focus-3-line"></i>
+                    <span>Focus Optimization</span>
+                </div>
+            </div>
+
+            <div class="welcome-buttons">
+                <button id="get-started-btn" class="btn btn-get-started">
+                    <span>Get Started</span>
+                    <i class="ri-arrow-right-line"></i>
+                    <div class="btn-shimmer"></div>
+                </button>
+                <button id="generate-plan-btn" class="btn btn-generate-plan">
+                    <i class="ri-magic-line"></i>
+                    <span>Generate Plan</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================== -->
+    <!-- MAIN PLANNER APP         -->
+    <!-- ======================== -->
+    <div id="app-page" class="app-page hidden">
+        <div class="background-elements">
+            <div class="glow-orb orb-1"></div>
+            <div class="glow-orb orb-2"></div>
+            <div class="glow-orb orb-3"></div>
+            <div class="grid-pattern"></div>
+        </div>
+
+        <!-- Top Navbar -->
+        <nav class="navbar">
+            <div class="navbar-inner">
+                <div class="nav-left">
+                    <button class="nav-back-btn" id="nav-back-btn" title="Back to Welcome Page" aria-label="Back">
+                        <i class="ri-arrow-left-line"></i>
+                    </button>
+                    <a href="#" class="nav-brand" id="nav-logo">
+                        <div class="nav-logo-icon">
+                            <i class="ri-brain-line"></i>
+                        </div>
+                        <span>StudySync</span>
+                    </a>
+                </div>
+                <div class="nav-actions">
+                    <div class="nav-tabs">
+                        <button class="nav-tab active" id="nav-tab-planner" data-page="planner">
+                            <i class="ri-edit-2-line"></i>
+                            <span>Planner</span>
+                        </button>
+                        <button class="nav-tab" id="nav-tab-dashboard" data-page="dashboard">
+                            <i class="ri-dashboard-3-line"></i>
+                            <span>Dashboard</span>
+                        </button>
+                    </div>
+                    <div class="nav-badge">
+                        <i class="ri-sparkling-2-fill"></i>
+                        <span>AI Powered</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="container">
+            <!-- Hero Section -->
+            <div class="page-hero">
+                <div class="hero-badge">
+                    <i class="ri-rocket-2-line"></i>
+                    <span>Plan your success</span>
+                </div>
+                <h1 class="page-title">Create Your <span class="text-gradient">Study Plan</span></h1>
+                <p class="page-desc">Configure your subjects, set your exam date, and let our AI generate the perfect study schedule.</p>
+            </div>
+
+            <!-- Planner Form Card -->
+            <section class="planner-card">
+                <form id="planner-form">
+                    <!-- Step 1: Config -->
+                    <div class="card-section">
+                        <div class="card-section-header">
+                            <div class="step-badge">1</div>
+                            <div>
+                                <h2>Schedule Configuration</h2>
+                                <p class="card-section-desc">Set your exam deadline and daily availability</p>
+                            </div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label for="exam-date">
+                                    <i class="ri-calendar-event-fill"></i>
+                                    Final Exam Date
+                                </label>
+                                <input type="date" id="exam-date" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="daily-hours">
+                                    <i class="ri-time-fill"></i>
+                                    Daily Study Hours
+                                </label>
+                                <input type="number" id="daily-hours" min="1" max="24" placeholder="e.g. 4" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Subjects -->
+                    <div class="card-section">
+                        <div class="card-section-header">
+                            <div class="step-badge">2</div>
+                            <div>
+                                <h2>Your Subjects</h2>
+                                <p class="card-section-desc">Add subjects and estimated hours to master each</p>
+                            </div>
+                            <button type="button" id="add-subject-btn" class="btn btn-secondary">
+                                <i class="ri-add-line"></i> Add Subject
+                            </button>
+                        </div>
+                        
+                        <div class="subjects-header">
+                            <span class="col-name">Subject Name</span>
+                            <span class="col-hours">Hours</span>
+                            <span class="col-action"></span>
+                        </div>
+                        
+                        <div id="subjects-container" class="subjects-container">
+                            <!-- Subject items will be injected here -->
+                        </div>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <button type="submit" class="btn btn-primary generate-btn" id="generate-timetable-btn">
+                        <i class="ri-sparkling-2-fill"></i>
+                        <span>Generate Study Plan</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Results Section -->
+            <section id="result-section" class="result-section hidden">
+                <div class="result-header">
+                    <div class="result-header-text">
+                        <h2><i class="ri-calendar-check-fill"></i> Your Study Routine</h2>
+                        <p>AI-optimized schedule based on your inputs</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card stat-purple">
+                        <div class="stat-icon">
+                            <i class="ri-calendar-check-line"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="days-left">0</span>
+                            <span class="stat-label">Days Left</span>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-cyan">
+                        <div class="stat-icon">
+                            <i class="ri-time-line"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="total-hours-avail">0</span>
+                            <span class="stat-label">Hours Available</span>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-emerald">
+                        <div class="stat-icon">
+                            <i class="ri-book-read-line"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="total-hours-req">0</span>
+                            <span class="stat-label">Hours Required</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="messages-container"></div>
+                
+                <div class="timeline-wrapper">
+                    <div id="timetable-container" class="timetable-container">
+                        <!-- Daily routine will be injected here -->
+                    </div>
+                </div>
+
+                <!-- View Dashboard Button -->
+                <button class="btn btn-dashboard-link" id="go-to-dashboard-btn">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span>View Progress Dashboard</span>
+                    <i class="ri-arrow-right-s-line"></i>
+                </button>
+            </section>
+        </main>
+
+        <!-- ======================== -->
+        <!-- DASHBOARD PAGE            -->
+        <!-- ======================== -->
+        <main class="container dashboard-container hidden" id="dashboard-page">
+            <div class="page-hero">
+                <div class="hero-badge">
+                    <i class="ri-line-chart-line"></i>
+                    <span>Track your journey</span>
+                </div>
+                <h1 class="page-title">Progress <span class="text-gradient">Dashboard</span></h1>
+                <p class="page-desc">Monitor your study progress, maintain streaks, and stay on track for exam day.</p>
+            </div>
+
+            <!-- Dashboard Stats Row -->
+            <div class="dash-stats-row">
+                <div class="dash-stat-card">
+                    <div class="dash-stat-icon purple"><i class="ri-fire-fill"></i></div>
+                    <div class="dash-stat-info">
+                        <span class="dash-stat-value" id="dash-streak">0</span>
+                        <span class="dash-stat-label">Day Streak</span>
+                    </div>
+                </div>
+                <div class="dash-stat-card">
+                    <div class="dash-stat-icon cyan"><i class="ri-checkbox-circle-fill"></i></div>
+                    <div class="dash-stat-info">
+                        <span class="dash-stat-value" id="dash-completed">0</span>
+                        <span class="dash-stat-label">Days Done</span>
+                    </div>
+                </div>
+                <div class="dash-stat-card">
+                    <div class="dash-stat-icon emerald"><i class="ri-calendar-todo-fill"></i></div>
+                    <div class="dash-stat-info">
+                        <span class="dash-stat-value" id="dash-remaining">0</span>
+                        <span class="dash-stat-label">Days Left</span>
+                    </div>
+                </div>
+                <div class="dash-stat-card">
+                    <div class="dash-stat-icon amber"><i class="ri-time-fill"></i></div>
+                    <div class="dash-stat-info">
+                        <span class="dash-stat-value" id="dash-hours-studied">0</span>
+                        <span class="dash-stat-label">Hours Studied</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Ring + Subjects -->
+            <div class="dash-grid">
+                <!-- Overall Progress -->
+                <div class="dash-card">
+                    <h3 class="dash-card-title"><i class="ri-pie-chart-2-fill"></i> Overall Progress</h3>
+                    <div class="progress-ring-wrapper">
+                        <svg class="progress-ring" viewBox="0 0 200 200">
+                            <circle class="progress-ring-bg" cx="100" cy="100" r="85" />
+                            <circle class="progress-ring-fill" id="progress-ring-circle" cx="100" cy="100" r="85" />
+                        </svg>
+                        <div class="progress-ring-text">
+                            <span class="progress-ring-value" id="progress-percent">0%</span>
+                            <span class="progress-ring-label">Complete</span>
+                        </div>
+                    </div>
+                    <p class="dash-card-footer" id="progress-footer-text">Generate a plan to start tracking</p>
+                </div>
+
+                <!-- Subject Progress -->
+                <div class="dash-card">
+                    <h3 class="dash-card-title"><i class="ri-book-open-fill"></i> Subject Progress</h3>
+                    <div class="subject-progress-list" id="subject-progress-list">
+                        <p class="dash-empty-text">No subjects yet. Generate a study plan first.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Daily Checklist -->
+            <div class="dash-card full-width">
+                <h3 class="dash-card-title"><i class="ri-calendar-check-fill"></i> Daily Checklist</h3>
+                <p class="dash-card-desc">Mark each day as complete to track your progress and build streaks.</p>
+                <div class="daily-checklist" id="daily-checklist">
+                    <p class="dash-empty-text">Generate a study plan to see your daily checklist.</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>Built with <i class="ri-heart-fill"></i> by StudySync &mdash; Ace your exams.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
